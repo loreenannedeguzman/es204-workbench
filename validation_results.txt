@@ -1,0 +1,287 @@
+PASS A-1 Example 4: euler
+PASS A-1 Example 4: predictor_corrector
+PASS A-1 Example 4: rk2_1
+PASS A-1 Example 4: rk4
+PASS A-1 Example 2 Euler unstable h=.2
+PASS A-1 Example 2 Euler h=.05
+PASS A-1 Example 3 PC h=.05
+PASS euler rejects invalid meshes
+PASS predictor_corrector rejects invalid meshes
+PASS rk2_1 rejects invalid meshes
+PASS rk2_2 rejects invalid meshes
+PASS rk3 rejects invalid meshes
+PASS rk4 rejects invalid meshes
+PASS A-1 RK2.2 Ralston coefficients
+PASS euler convergence order
+PASS predictor_corrector convergence order
+PASS rk2_1 convergence order
+PASS rk2_2 convergence order
+PASS rk3 convergence order
+PASS rk4 convergence order
+PASS A-2 Example 2 Euler m=7
+PASS A-2 Lagrange h_max near .005648
+PASS A-2 h_max verified integer mesh
+PASS A-2 Example 2 RK4 m=1
+PASS A-2 successive RK4 agrees
+PASS Function first differences
+PASS A-2 Example 4 forward first derivative
+PASS A-2 Example 4 backward first derivative
+PASS A-2 Example 4 forward second derivative
+PASS A-2 Example 5 central second derivative
+PASS A-2 higher-order endpoint 1
+PASS A-2 higher-order endpoint 2
+PASS A-2 Example 6 trapezoidal_rule
+PASS trapezoidal_rule zero integral error does not crash
+PASS A-2 Example 6 simpson_one_third_rule
+PASS simpson_one_third_rule zero integral error does not crash
+PASS A-2 Exercise 2 trapezoidal
+PASS A-2 Exercise 2 Simpson
+PASS A-3 Vandermonde interpolates all nodes
+PASS A-3 Lagrange and Vandermonde agree
+PASS A-3 Lagrange/FD first derivative endpoints
+PASS A-3 Example 4 exponential lowest loss
+PASS A-3 Example 4 exponential parameters
+PASS A-3 Example 6 bisection
+PASS A-3 Example 8 Newton
+PASS Secant residual criterion
+PASS Secant equal function values handled
+PASS Newton exact zero root handled
+PASS A-3 Example 10 corrector passes 1
+PASS A-3 Example 10 corrector passes 2
+PASS A-3 Example 10 corrector passes 3
+PASS A-3 Example 10 corrector passes 4
+PASS Menu options 0 through 48 have unique handlers
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable show_problem
+PASS Menu callable input
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable get_number
+PASS Menu callable display_solution
+PASS Menu callable input
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable int
+PASS Menu callable display_solution
+PASS Menu callable get_number
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable display_solution
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable display_solution
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable display_solution
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable display_solution
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable compare_all_methods
+PASS Menu callable proceed_to_menu
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable input
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable final_point_error_table
+PASS Menu callable proceed_to_menu
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable get_number
+PASS Menu callable find_minimum_n
+PASS Menu callable proceed_to_menu
+PASS Menu callable input
+PASS Menu callable proceed_to_menu
+PASS Menu callable int
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable euler_m_refinement
+PASS Menu callable proceed_to_menu
+PASS Menu callable input
+PASS Menu callable proceed_to_menu
+PASS Menu callable proceed_to_menu
+PASS Menu callable get_number
+PASS Menu callable rk4_m_refinement
+PASS Menu callable proceed_to_menu
+PASS Menu callable show_all_point_errors
+PASS Menu callable proceed_to_menu
+PASS Menu callable plot_solutions
+PASS Menu callable proceed_to_menu
+PASS Menu callable plot_euler_error_vs_m
+PASS Menu callable proceed_to_menu
+PASS Menu callable plot_final_error_vs_n
+PASS Menu callable proceed_to_menu
+PASS Menu callable show_problem
+PASS Menu callable proceed_to_menu
+PASS Menu callable vandermonde_approximation
+PASS Menu callable proceed_to_menu
+PASS Menu callable lagrangian_polynomial
+PASS Menu callable proceed_to_menu
+PASS Menu callable lagrangian_finite_difference
+PASS Menu callable proceed_to_menu
+PASS Menu callable least_squares
+PASS Menu callable proceed_to_menu
+PASS Menu callable bisection_method
+PASS Menu callable proceed_to_menu
+PASS Menu callable newton_raphson_method
+PASS Menu callable proceed_to_menu
+PASS Menu callable secant_method
+PASS Menu callable proceed_to_menu
+PASS Menu callable plot_vandermonde
+PASS Menu callable plot_lagrangian
+PASS Menu callable plot_finite_difference
+PASS Menu callable plot_least_squares
+PASS Menu callable plot_root_finding
+PASS Menu callable plot_root_convergence
+PASS Menu callable input
+PASS Menu callable lagrange_hmax
+PASS Menu callable print
+PASS Menu callable proceed_to_menu
+PASS Menu callable rk4_successive_m_error
+PASS Menu callable proceed_to_menu
+PASS Menu callable plot_error_comparison
+PASS Menu callable proceed_to_menu
+PASS Menu callable finite_difference_approximations
+PASS Menu callable proceed_to_menu
+PASS Menu callable finite_difference_tabulated
+PASS Menu callable proceed_to_menu
+PASS Menu callable central_second_derivative_tabulated
+PASS Menu callable proceed_to_menu
+PASS Menu callable higher_order_endpoint_differences
+PASS Menu callable proceed_to_menu
+PASS Menu callable trapezoidal_rule
+PASS Menu callable proceed_to_menu
+PASS Menu callable simpson_one_third_rule
+PASS Menu callable proceed_to_menu
+PASS Menu callable compare_integration_methods
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_1a
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_1b
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_1c
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_1d
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_2a
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_2b
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_2c
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_2d
+PASS Menu callable proceed_to_menu
+PASS Menu callable ps2_plots
+PASS Menu callable proceed_to_menu
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS Menu callable print
+PASS plot_vandermonde uses saved results without prompts
+PASS plot_lagrangian uses saved results without prompts
+PASS plot_finite_difference uses saved results without prompts
+PASS plot_least_squares uses saved results without prompts
+PASS plot_root_finding uses saved results without prompts
+PASS plot_root_convergence uses saved results without prompts
+PASS plot_vandermonde explains missing results
+PASS plot_lagrangian explains missing results
+PASS plot_finite_difference explains missing results
+PASS plot_least_squares explains missing results
+PASS plot_root_finding explains missing results
+PASS plot_root_convergence explains missing results
+PASS All repaired plot routes render with Agg
+PASS Menu startup and exit
+PASS Unequal-spacing trapezoidal rule integrates a line
+PASS Simpson rejects a one-point table
+PASS Finite difference rejects zero h
+PASS Bisection caches exact endpoint root
+PASS Unconverged bisection cache is labelled
+PASS Cached plots perform no linear solves
+PASS Menu calculation then cached plotting then exit
