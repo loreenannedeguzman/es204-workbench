@@ -568,6 +568,11 @@ def search_n(p):
 
 
 def dispatch(request):
+    if request['action'] in ('bvp','matrix'):
+        import bvp_methods
+        result=getattr(bvp_methods,request['action'])(request['inputs'])
+        result['notes'].extend('WARNING: '+v for v in result.get('warnings',[]))
+        return result
     if request['action']=='solve' and (request['inputs'].get('output_mode')=='Final values only' or request['inputs'].get('grid_mode')=='Powers of ten n=10^p'):
         from final_values import calculate
         return calculate(request['inputs'])

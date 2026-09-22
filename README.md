@@ -109,3 +109,9 @@ with an independent recurrence and an analytic regression test.
 This app assumes trusted local formulas and input files. SymPy expression parsing
 is not a sandbox for untrusted executable input. The app uses the laptop's existing
 Python 3.13 installation with NumPy, SymPy, Tkinter and Matplotlib.
+
+## Unit II-A update
+
+The BVP and Matrix tabs now support linear second-order boundary-value problems, shooting, finite differences, and Direct/Jacobi/Gauss-Seidel/SOR solvers. Show equations generates problem-specific formulas; Export equations writes LaTeX. Save session and Load session preserve inputs, current results, datasets, and table history.
+
+See [BVP_GUIDE.md](BVP_GUIDE.md) for boundary inputs, lecture examples, stopping criteria, and limitations.

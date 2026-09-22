@@ -78,6 +78,11 @@ class App:
         self.data_form=self.tabs.nametowidget(self.tabs.tabs()[1]).body
         self.root_form=self.tabs.nametowidget(self.tabs.tabs()[2]).body
         self.build_ode();self.build_analysis();self.build_roots()
+        from lesson_ui import build, save_session, load_session, export_equations
+        build(self,ScrollForm,METHODS)
+        # Add controls to the existing toolbar, not another input tab.
+        for label,action in [('Save session…',save_session),('Load session…',load_session),('Export equations…',export_equations)]:
+            ttk.Button(tools,text=label,command=lambda action=action:action(self)).pack(side='left',padx=(0,4))
         self.field_defaults={k:v.get() for k,v in self.fields.items()}
         self.tabs.bind('<<NotebookTabChanged>>',self.tab_changed)
         right=ttk.Frame(panes);panes.add(right,weight=1)
@@ -208,16 +213,18 @@ class App:
             self.field(p,'root_'+key,label,default)
 
     def tab_changed(self,event=None):
-        self.run_button.configure(text=['Solve ODE','Analyze data','Find root'][self.tabs.index('current')])
+        self.run_button.configure(text=['Solve ODE','Analyze data','Find root','Solve BVP','Solve matrix'][self.tabs.index('current')])
 
     def inputs(self):
         return {**{k:v.get() for k,v in self.fields.items()},**{k:v.get('1.0','end-1c') for k,v in self.texts.items()},'methods':[k for k,v in self.method_vars.items() if v.get()]}
 
-    def run(self):
+    def run(self,equations_only=False):
         if self.process is not None: return
         raw=self.inputs();tab=self.tabs.index('current')
-        action=['solve','analyze','roots'][tab]
-        data=raw if tab<2 else {k[5:]:v for k,v in raw.items() if k.startswith('root_')}
+        action=['solve','analyze','roots','bvp','matrix'][tab]
+        prefix={2:'root_',3:'bvp_',4:'matrix_'}.get(tab)
+        data=raw if prefix is None else {k[len(prefix):]:v for k,v in raw.items() if k.startswith(prefix)}
+        if tab>=3:data['equations_only']=bool(equations_only)
         if tab==2 and data['method']=='Newton-Raphson': data['b']=data['a']
         executable=Path(sys.executable).with_name('python.exe')
         try:
@@ -247,14 +254,14 @@ class App:
                     messagebox.showerror('Check inputs',response['error'])
                 else:
                     self.render(response['result'])
-                    if action=='solve':
+                    if action=='solve' or (action=='bvp' and self.result.get('datasets')):
                         self.datasets=self.result['datasets']
                         self.dataset_choice.configure(values=[d['label'] for d in self.datasets])
                         if self.datasets: self.dataset_choice.current(0)
                     self.status.set('Complete. Tables and plots reflect the inputs at the last successful run.')
                     if self.result.get('warnings'):
-                        self.status.set('Complete with reference-precision warning. See Report / formulas.')
-                        messagebox.showwarning('Reference precision', '\n\n'.join(self.result['warnings']))
+                        self.status.set('Complete with calculation warning. See Report / formulas.')
+                        messagebox.showwarning('Calculation warning', '\n\n'.join(self.result['warnings']))
         self.root.after(60,self.poll)
 
     @staticmethod
@@ -462,7 +469,9 @@ class App:
             'Data / analysis: copy a saved ODE solution or paste data. Keep only the required points. Choose interpolation, least squares, finite differences, integration, or a stationary point of the fitted polynomial.\n\n'
             'Roots: enter g(x), a method and starting values. Convergence uses the residual tolerance.\n\n'
             'Plots are embedded. Use the plot toolbar to zoom or save an image. Use CSV for numerical tables. Save inputs stores your setup, not computed results.\n\n'
-            'Scroll the input panel to reach all fields. Changing inputs does not recompute results until Run. This app handles scalar first-order IVPs, not systems, boundary-value problems or automatic interpretation of problem text.')
+            'BVP: linear second-order ODEs with Dirichlet, Neumann, Robin or mixed conditions. Choose finite differences or shooting. Matrix: Direct, Jacobi, Gauss-Seidel or SOR. Show equations previews formulas; Export equations saves LaTeX.\n\n'
+            'Save session preserves inputs, current results, datasets and table history. Save inputs keeps only input settings.\n\n'
+            'Scroll to reach all fields. Inputs are not recalculated until Run. General nonlinear BVPs, arbitrary ODE systems and automatic interpretation of problem text are not supported.')
 
 
 if __name__=='__main__':
