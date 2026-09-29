@@ -33,8 +33,13 @@ grids. The app makes that distinction visible and requires explicit interpolatio
 it does not silently change the problem's grid or assume a professor's correction.
 
 Scope limits: this is a numerical workbench, not a natural-language problem reader
-or symbolic proof assistant. It does not solve the introductory examples of general
-higher-order ODE systems/BVPs. The exact-polynomial degree limit is 30; scaled
+or symbolic proof assistant. It supports first/second-order coupled IVPs (and higher-order systems reduced
+to first order by the user), linear second-order BVPs, and linear second-order
+finite-difference IVPs. Nonlinear BVPs remain outside its scope. The exact-polynomial degree limit is 30; scaled
 coordinates improve conditioning but do not remove high-degree oscillation or
 floating-point error. Candidate n-search is conditional, not a proof of global
 minimality. Singular functions and nonconvergent root iterations require inspection.
+
+
+Systems / FDM IVP / Compare: see SYSTEMS_GUIDE.md for general input formats,
+stage and recurrence equations, reference-data comparisons and supported limits.

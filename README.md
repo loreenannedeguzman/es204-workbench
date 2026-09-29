@@ -115,3 +115,12 @@ Python 3.13 installation with NumPy, SymPy, Tkinter and Matplotlib.
 The BVP and Matrix tabs now support linear second-order boundary-value problems, shooting, finite differences, and Direct/Jacobi/Gauss-Seidel/SOR solvers. Show equations generates problem-specific formulas; Export equations writes LaTeX. Save session and Load session preserve inputs, current results, datasets, and table history.
 
 See [BVP_GUIDE.md](BVP_GUIDE.md) for boundary inputs, lecture examples, stopping criteria, and limitations.
+
+
+## General systems and initial-value finite differences
+
+The **Systems**, **FDM IVP**, and **Compare** tabs add coupled first/second-order
+ODEs, finite-difference initial-value recurrences, supplied-reference comparisons,
+and detailed equations/stage tables. BVP also accepts reference tables and plots
+y with its first derivative. See [SYSTEMS_GUIDE.md](SYSTEMS_GUIDE.md) for input
+formats, starting schemes, limits and session-preservation instructions.

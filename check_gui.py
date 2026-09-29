@@ -1,47 +1,41 @@
-"""Exercise the real GUI/worker path and capture only its own window."""
-from pathlib import Path
-import runpy
+"""Hidden-window integration checks, including worker and full-session round trip."""
+import importlib.machinery
 import tkinter as tk
 import time
-from PIL import ImageGrab
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
+from bvp_methods import bvp
+from test_bvp import base
+import lesson_ui
 
-module=runpy.run_path(str(Path(__file__).with_name('ES204_App.pyw')),run_name='test_app')
-module['enable_dpi']()
-root=tk.Tk();root.withdraw();app=module['App'](root)
-errors=[]
-module['App'].run.__globals__['messagebox'].showerror=lambda title,text:errors.append((title,text))
-
-def wait():
-    deadline=time.monotonic()+35
-    while app.process is not None and time.monotonic()<deadline:
-        root.update();time.sleep(.03)
-    assert app.process is None,'Calculation timeout'
-    assert not errors,errors
-
+module=importlib.machinery.SourceFileLoader('workbench_app',str(Path(__file__).with_name('ES204_App.pyw'))).load_module()
+root=tk.Tk();root.withdraw();app=module.App(root)
 try:
-    for k,v in dict(formula='-2*y+sqrt(x)*sin(2*x)',x0='0',xf='2.4',y0='0',steps='.15',iterations='1').items():app.fields[k].set(v)
-    for name,var in app.method_vars.items():var.set(name=='Predictor-Corrector')
-    app.texts['reference'].insert('1.0','0,0\n0.3,0.0323187\n0.6,0.140207\n0.9,0.270998\n1.2,0.342188\n1.5,0.290355\n1.8,0.104387\n2.1,-0.164493\n2.4,-0.419418')
-    app.run();wait()
-    assert abs(app.datasets[0]['y'][-1]+.417282787678)<1e-11
-    app.use_dataset();app.tabs.select(1);root.update()
-    app.fields['operation'].set('Finite differences');app.run();wait()
-    assert len(app.result['charts'][0]['curves'])==2
-    app.output_tabs.select(app.plot_frame)
-    root.geometry('1120x760');root.deiconify();root.update()
-    app.canvas.draw();root.update()
-    widget=app.canvas.get_tk_widget()
-    assert abs(app.figure.bbox.width-widget.winfo_width())<2
-    assert abs(app.figure.bbox.height-widget.winfo_height())<2
-    bounds=(root.winfo_rootx(),root.winfo_rooty(),root.winfo_rootx()+root.winfo_width(),root.winfo_rooty()+root.winfo_height())
-    ImageGrab.grab(bbox=bounds).save(Path(__file__).with_name('gui_preview.png'))
-    # Tab changes, table exports and plot rendering must retain the results.
-    assert 'Finite-difference derivatives' in app.report_text()
-    assert app.selected_csv()
-    root.geometry('900x600');root.update()
-    assert app.run_button.winfo_viewable()
-    assert app.run_button.winfo_rootx()+app.run_button.winfo_width()<=root.winfo_rootx()+root.winfo_width()
-    assert app.run_button.winfo_rooty()+app.run_button.winfo_height()<=root.winfo_rooty()+root.winfo_height()
-    print('PASS: GUI PC + exact table, saved dataset, finite differences, combined plot; CSV; 900x600 controls.')
-finally:
-    app.close()
+    assert len(app.tabs.tabs())==8
+    app.tabs.select(3)
+    for key,val in base().items():
+        if 'bvp_'+key in app.fields:app.fields['bvp_'+key].set(val)
+    app.run()
+    deadline=time.monotonic()+20
+    while app.process is not None and time.monotonic()<deadline:root.update();time.sleep(.02)
+    assert app.process is None and app.result and app.result['datasets']
+    assert len(app.datasets)==1
+    app.use_dataset()
+    assert '1' in app.texts['data'].get('1.0','end')
+    with tempfile.TemporaryDirectory() as td:
+        path=str(Path(td)/'session.json')
+        before=app.inputs();history=list(app.history)
+        with patch.object(lesson_ui.filedialog,'asksaveasfilename',return_value=path):lesson_ui.save_session(app)
+        app.fields['bvp_size'].set('99');app.history=[]
+        with patch.object(lesson_ui.filedialog,'askopenfilename',return_value=path):lesson_ui.load_session(app)
+        assert app.inputs()==before and app.history==history
+        with patch.object(lesson_ui.filedialog,'asksaveasfilename',return_value=str(Path(td)/'equations.tex')):lesson_ui.export_equations(app)
+        assert '\\begin{document}' in (Path(td)/'equations.tex').read_text()
+    app.run(equations_only=True)
+    deadline=time.monotonic()+20
+    while app.process is not None and time.monotonic()<deadline:root.update();time.sleep(.02)
+    assert app.result['equations'] and not app.result['datasets']
+    assert app.datasets # previously calculated solution retained for post-processing
+    print('GUI: eight tabs, actual worker, equation preview, data transfer, session round trip, LaTeX export OK.')
+finally:app.close()

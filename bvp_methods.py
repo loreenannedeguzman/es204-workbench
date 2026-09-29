@@ -296,5 +296,8 @@ def solution(p,out,xs,ys,zs,label):
         curves.append(curve('Given exact formula',xs,[ef(x) for x in xs]))
     out['charts'].append({'title':'BVP solution','ylabel':'y','curves':curves})
     out['charts'].append({'title':'BVP derivative','ylabel':"y'",'curves':[curve(label,xs,zs,'nodes')]})
+    out['charts'].append({'title':'Solution and first derivative','ylabel':"y and y'",'curves':[curve(label+' / y',xs,ys,'nodes'),curve(label+" / y'",xs,zs,'nodes')]})
+    from systems_methods import add_reference
+    add_reference(out,xs,ys,p.get('reference',''),label)
     out['datasets'].append({'label':label,'x':list(map(float,xs)),'y':list(map(float,ys))})
     return out

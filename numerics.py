@@ -568,6 +568,9 @@ def search_n(p):
 
 
 def dispatch(request):
+    if request['action'] in ('systems','fdm_ivp','comparison'):
+        import systems_methods
+        return getattr(systems_methods,request['action'])(request['inputs'])
     if request['action'] in ('bvp','matrix'):
         import bvp_methods
         result=getattr(bvp_methods,request['action'])(request['inputs'])

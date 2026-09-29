@@ -19,6 +19,8 @@ def build(app, ScrollForm, methods):
                 for k,value in [('alpha','1'),('beta','0'),('gamma','0')]:app.field(p,'bvp_'+side+k,name+' '+k,value)
             app.field(p,'bvp_method','BVP method','Finite differences',choices=['Finite differences','Shooting'])
             app.field(p,'bvp_exact','Exact y(x), optional comparison')
+            app.text(p,'bvp_reference','Supplied reference table (optional): x, y per line',5)
+            app.hint(p,'Formula and supplied table comparisons are reported separately. Neither replaces the other.')
             app.hint(p,'Shooting settings (used only for Shooting):')
             app.field(p,'bvp_ivp','IVP step method','RK4',choices=methods)
             for k,label,value in [('passes','PC corrector passes','1'),('guess0','First shooting parameter guess','0'),('guess1','Second shooting parameter guess','1'),('shoot_tol','Shooting tolerance (not percent)','1e-8'),('shoot_limit','Maximum secant updates','20')]:app.field(p,'bvp_'+k,label,value)
@@ -40,7 +42,7 @@ def build(app, ScrollForm, methods):
 def export_equations(app):
     equations=(app.result or {}).get('equations',[])
     if not equations:
-        messagebox.showinfo('Equations','Use Show equations or Solve in BVP / Matrix first.');return
+        messagebox.showinfo('Equations','Use Show equations or Solve in BVP, Matrix, Systems, FDM IVP or Compare first.');return
     path=filedialog.asksaveasfilename(defaultextension='.tex',filetypes=[('LaTeX equations','*.tex')])
     if not path:return
     def escape(s):return s.replace('_',r'\_').replace('&',r'\&').replace('%',r'\%')
