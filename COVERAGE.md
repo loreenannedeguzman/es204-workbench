@@ -43,3 +43,13 @@ minimality. Singular functions and nonconvergent root iterations require inspect
 
 Systems / FDM IVP / Compare: see SYSTEMS_GUIDE.md for general input formats,
 stage and recurrence equations, reference-data comparisons and supported limits.
+
+
+## Weak-form derivations
+
+The **Weak form** tab derives regular scalar linear second-order 1D weak forms
+from standard or divergence-form equations and Dirichlet/Neumann/Robin data.
+The **Rendered equations** view shows the derivation as typeset mathematics,
+including integration by parts and boundary substitutions. LaTeX export includes
+explanations. No internet or external LaTeX installation is needed for the view.
+See [WEAK_FORM_GUIDE.md](WEAK_FORM_GUIDE.md) for input conventions and limits.

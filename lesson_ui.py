@@ -42,13 +42,16 @@ def build(app, ScrollForm, methods):
 def export_equations(app):
     equations=(app.result or {}).get('equations',[])
     if not equations:
-        messagebox.showinfo('Equations','Use Show equations or Solve in BVP, Matrix, Systems, FDM IVP or Compare first.');return
+        messagebox.showinfo('Equations','Use Show equations or Solve in BVP, Matrix, Systems, FDM IVP, Compare or Weak form first.');return
     path=filedialog.asksaveasfilename(defaultextension='.tex',filetypes=[('LaTeX equations','*.tex')])
     if not path:return
     def escape(s):return s.replace('_',r'\_').replace('&',r'\&').replace('%',r'\%')
     body=[r'\documentclass{article}',r'\usepackage[margin=20mm]{geometry}',r'\usepackage{amsmath,amssymb,graphicx}',
           r'\newsavebox{\equationbox}',r'\newcommand{\fitequation}[1]{\sbox{\equationbox}{$\displaystyle #1$}\par\noindent\makebox[\textwidth][c]{\ifdim\wd\equationbox>\textwidth\resizebox{\textwidth}{!}{\usebox{\equationbox}}\else\usebox{\equationbox}\fi}\par}',r'\begin{document}']
-    for eq in equations:body.extend([r'\paragraph{'+escape(eq['title'])+'}',r'\fitequation{'+eq['latex']+'}'])
+    for eq in equations:
+        body.append(r'\paragraph{'+escape(eq['title'])+'}')
+        if 'weak_form' in (app.result or {}) or 'fea' in (app.result or {}):body.append(escape(eq.get('text','')))
+        body.append(r'\fitequation{'+eq['latex']+'}')
     body.append(r'\end{document}')
     Path(path).write_text('\n'.join(body),encoding='utf-8')
 

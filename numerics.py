@@ -568,6 +568,12 @@ def search_n(p):
 
 
 def dispatch(request):
+    if request['action']=='fea':
+        from fea_methods import calculate
+        return calculate(request['inputs'])
+    if request['action']=='weak':
+        from weak_forms import derive
+        return derive(request['inputs'])
     if request['action'] in ('systems','fdm_ivp','comparison'):
         import systems_methods
         return getattr(systems_methods,request['action'])(request['inputs'])

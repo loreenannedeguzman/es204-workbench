@@ -82,6 +82,10 @@ class App:
         build(self,ScrollForm,METHODS)
         from systems_ui import build as build_systems
         build_systems(self,ScrollForm,METHODS)
+        from weak_ui import build as build_weak
+        build_weak(self,ScrollForm)
+        from fea_ui import build as build_fea
+        build_fea(self,ScrollForm)
         # Add controls to the existing toolbar, not another input tab.
         for label,action in [('Save session…',save_session),('Load session…',load_session),('Export equations…',export_equations)]:
             ttk.Button(tools,text=label,command=lambda action=action:action(self)).pack(side='left',padx=(0,4))
@@ -94,6 +98,8 @@ class App:
         notes_frame=ttk.Frame(self.output_tabs);self.output_tabs.add(notes_frame,text='Report / formulas')
         self.report=ScrolledText(notes_frame,wrap='word',font=('Consolas',10),state='disabled')
         self.report.pack(fill='both',expand=True)
+        from weak_ui import build_view
+        build_view(self)
         tablebar=ttk.Frame(self.table_frame);tablebar.pack(fill='x',pady=6)
         self.table_choice=ttk.Combobox(tablebar,state='readonly');self.table_choice.pack(side='left',fill='x',expand=True)
         self.table_choice.bind('<<ComboboxSelected>>',lambda e:self.show_table())
@@ -215,7 +221,7 @@ class App:
             self.field(p,'root_'+key,label,default)
 
     def tab_changed(self,event=None):
-        self.run_button.configure(text=['Solve ODE','Analyze data','Find root','Solve BVP','Solve matrix','Solve system','Solve FDM IVP','Compare results'][self.tabs.index('current')])
+        self.run_button.configure(text=['Solve ODE','Analyze data','Find root','Solve BVP','Solve matrix','Solve system','Solve FDM IVP','Compare results','Derive weak form','Run FEA'][self.tabs.index('current')])
 
     def inputs(self):
         return {**{k:v.get() for k,v in self.fields.items()},**{k:v.get('1.0','end-1c') for k,v in self.texts.items()},'methods':[k for k,v in self.method_vars.items() if v.get()]}
@@ -223,8 +229,8 @@ class App:
     def run(self,equations_only=False):
         if self.process is not None: return
         raw=self.inputs();tab=self.tabs.index('current')
-        action=['solve','analyze','roots','bvp','matrix','systems','fdm_ivp','comparison'][tab]
-        prefix={2:'root_',3:'bvp_',4:'matrix_',5:'systems_',6:'fdm_ivp_',7:'comparison_'}.get(tab)
+        action=['solve','analyze','roots','bvp','matrix','systems','fdm_ivp','comparison','weak','fea'][tab]
+        prefix={2:'root_',3:'bvp_',4:'matrix_',5:'systems_',6:'fdm_ivp_',7:'comparison_',8:'weak_',9:'fea_'}.get(tab)
         data=raw if prefix is None else {k[len(prefix):]:v for k,v in raw.items() if k.startswith(prefix)}
         if tab>=3:data['equations_only']=bool(equations_only)
         if tab==2 and data['method']=='Newton-Raphson': data['b']=data['a']
@@ -256,7 +262,7 @@ class App:
                     messagebox.showerror('Check inputs',response['error'])
                 else:
                     self.render(response['result'])
-                    if action=='solve' or (action in ('bvp','systems','fdm_ivp') and self.result.get('datasets')):
+                    if action=='solve' or (action in ('bvp','systems','fdm_ivp','fea') and self.result.get('datasets')):
                         self.datasets=self.result['datasets']
                         self.dataset_choice.configure(values=[d['label'] for d in self.datasets])
                         if self.datasets: self.dataset_choice.current(0)
@@ -318,6 +324,8 @@ class App:
 
     def set_report(self,text):
         self.report.configure(state='normal');self.report.delete('1.0','end');self.report.insert('1.0',text);self.report.configure(state='disabled')
+        from weak_ui import show
+        show(self)
 
     def use_dataset(self):
         index=self.dataset_choice.current()
@@ -473,7 +481,7 @@ class App:
             'Plots are embedded. Use the plot toolbar to zoom or save an image. Use CSV for numerical tables. Save inputs stores your setup, not computed results.\n\n'
             'BVP: linear second-order ODEs with Dirichlet, Neumann, Robin or mixed conditions. Choose finite differences or shooting. Matrix: Direct, Jacobi, Gauss-Seidel or SOR. Show equations previews formulas; Export equations saves LaTeX.\n\n'
             'Save session preserves inputs, current results, datasets and table history. Save inputs keeps only input settings.\n\n'
-            'Scroll to reach all fields. Inputs are not recalculated until Run. Use Systems for coupled first/second-order IVPs, FDM IVP for initial-value finite differences, and Compare for reference tables. General nonlinear BVPs and automatic interpretation of problem text are not supported.')
+            'Scroll to reach all fields. Inputs are not recalculated until Run. Use Systems for coupled first/second-order IVPs, FDM IVP for initial-value finite differences, and Compare for reference tables. Weak form: step-by-step symbolic derivations with visually rendered equations for regular scalar linear second-order 1D equations. General nonlinear BVPs and automatic interpretation of problem text are not supported.')
 
 
 if __name__=='__main__':

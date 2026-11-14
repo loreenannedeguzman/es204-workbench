@@ -12,7 +12,7 @@ import lesson_ui
 module=importlib.machinery.SourceFileLoader('workbench_app',str(Path(__file__).with_name('ES204_App.pyw'))).load_module()
 root=tk.Tk();root.withdraw();app=module.App(root)
 try:
-    assert len(app.tabs.tabs())==8
+    assert len(app.tabs.tabs())==10
     app.tabs.select(3)
     for key,val in base().items():
         if 'bvp_'+key in app.fields:app.fields['bvp_'+key].set(val)
@@ -37,5 +37,5 @@ try:
     while app.process is not None and time.monotonic()<deadline:root.update();time.sleep(.02)
     assert app.result['equations'] and not app.result['datasets']
     assert app.datasets # previously calculated solution retained for post-processing
-    print('GUI: eight tabs, actual worker, equation preview, data transfer, session round trip, LaTeX export OK.')
+    print('GUI: ten tabs, actual worker, equation preview, data transfer, session round trip, LaTeX export OK.')
 finally:app.close()

@@ -29,7 +29,7 @@ def run(index,prefix,params,preview=False):
     return app.result
 
 try:
-    assert [app.tabs.tab(t,'text') for t in app.tabs.tabs()]==['ODE','Data / analysis','Roots','BVP','Matrix','Systems','FDM IVP','Compare']
+    assert [app.tabs.tab(t,'text') for t in app.tabs.tabs()]==['ODE','Data / analysis','Roots','BVP','Matrix','Systems','FDM IVP','Compare','Weak form','FEA']
     result=run(5,'systems',system(order='Second order',rhs='-u\n-v',initial='1,0,0,1',plot_x='v',plot_y='u'))
     assert result['tables'][0]['columns']==['i','x','u','du','v','dv']
     assert len(app.datasets)==4

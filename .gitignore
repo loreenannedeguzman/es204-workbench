@@ -10,3 +10,7 @@ env/
 *.log
 outputs/
 *.tmp
+
+*_test_output/
+.mpl-cache/
+gui_test_output/

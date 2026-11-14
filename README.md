@@ -27,8 +27,8 @@ inputs and contains no built-in homework answers. Numerical routines are in
 
 All ODE methods require a positive h dividing the forward interval. Input numbers
 may be expressions such as `pi/4`. Formulas use explicit multiplication, for example
-`2*x`, and support `^` or `**` for powers. This version solves scalar first-order
-IVPs, not ODE systems or boundary-value problems.
+`2*x`, and support `^` or `**` for powers. The ODE tab solves scalar first-order IVPs. Use Systems for coupled equations
+and BVP for boundary-value problems.
 
 True error is measured against your supplied references. Percentage error is N/A
 when the exact value is zero. Successive-grid error is `abs((fine-coarse)/fine)*100`,
@@ -110,12 +110,6 @@ This app assumes trusted local formulas and input files. SymPy expression parsin
 is not a sandbox for untrusted executable input. The app uses the laptop's existing
 Python 3.13 installation with NumPy, SymPy, Tkinter and Matplotlib.
 
-## Unit II-A update
-
-The BVP and Matrix tabs now support linear second-order boundary-value problems, shooting, finite differences, and Direct/Jacobi/Gauss-Seidel/SOR solvers. Show equations generates problem-specific formulas; Export equations writes LaTeX. Save session and Load session preserve inputs, current results, datasets, and table history.
-
-See [BVP_GUIDE.md](BVP_GUIDE.md) for boundary inputs, lecture examples, stopping criteria, and limitations.
-
 
 ## General systems and initial-value finite differences
 
@@ -124,3 +118,37 @@ ODEs, finite-difference initial-value recurrences, supplied-reference comparison
 and detailed equations/stage tables. BVP also accepts reference tables and plots
 y with its first derivative. See [SYSTEMS_GUIDE.md](SYSTEMS_GUIDE.md) for input
 formats, starting schemes, limits and session-preservation instructions.
+
+
+## Weak-form derivations
+
+The **Weak form** tab derives regular scalar linear second-order 1D weak forms
+from standard or divergence-form equations and Dirichlet/Neumann/Robin data.
+The **Rendered equations** view shows the derivation as typeset mathematics,
+including integration by parts and boundary substitutions. LaTeX export includes
+explanations. No internet or external LaTeX installation is needed for the view.
+See [WEAK_FORM_GUIDE.md](WEAK_FORM_GUIDE.md) for input conventions and limits.
+
+
+## General 1D FEA extension
+
+The FEA tab provides self-adjoint conversion, two-node linear Galerkin elements,
+variable/piecewise coefficients and loads, analytical or two-point Gauss
+integration, mixed boundary conditions, assembly, and manual-partition checking.
+Rendered equations show the working; tables, plots, sessions and LaTeX export
+are supported. See FEA_GUIDE.md for input conventions and limitations.
+Save your session and reopen the workbench to load newly installed features.
+
+## Installation and latest integration behavior
+
+Install Python with Tk support, run `python -m pip install -r requirements.txt`,
+then launch `python ES204_App.pyw`.
+
+FEA Auto integration evaluates supported additive terms analytically and uses
+two-point Gaussian quadrature for the remaining terms. Unsupported symbolic
+integration does not mean an antiderivative is mathematically impossible.
+Piecewise forcing is included in the exported governing equation.
+Existing saved sessions and results are not automatically recalculated.
+
+Run `python -B -m unittest discover -p "test_*.py"` for numerical checks.
+The hidden GUI checks include `check_fea_gui.py` and `check_weak_gui.py`.
